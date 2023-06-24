@@ -19,9 +19,6 @@ const Validation = (values) => {
   if (!email_check.test(values.email)) {
     error.emailvalidity = "Email didn't match";
   }
-  if (values.password === "") {
-    error.password = "password not empty";
-  }
   if (!password_check.test(values.password)) {
     error.password = "Password didn't match our policy";
   } else {

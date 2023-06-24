@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
+
 import { useNavigate } from "react-router-dom";
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const LoginForm = () => {
       setPasswordCheck(false);
       // setOpen(true);
       setTimeout(() => {
-        navigate("/");
+        navigate("/dashboard");
       }, 1000);
     }
   };

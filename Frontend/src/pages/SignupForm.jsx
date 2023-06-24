@@ -5,11 +5,17 @@ import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import Validation from "./Validation";
+import PasswordStrengthBar from "react-password-strength-bar";
+import { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
+
 const SignupForm = () => {
+  const [password, setPassword] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState("");
+
   const navigate = useNavigate();
-  const [error, setError] = useState({});
+  // const [error, setError] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
 
   const [values, setValues] = useState({
@@ -18,6 +24,7 @@ const SignupForm = () => {
     email: "",
     password: "",
   });
+
   const HandleValues = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -25,22 +32,17 @@ const SignupForm = () => {
   const HandleSubmit = (event) => {
     event.preventDefault();
     console.log("clicked");
-    const validationErrors = Validation(values);
-    setError(validationErrors);
-
     const password_check =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (values.password.length > 8 && password_check.test(values.password)) {
+    if (password.length > 8 && password_check.test(password)) {
       setIsSubmit(true);
-      setValues({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-      });
+      
       setTimeout(() => {
+        setPasswordCheck(false)
         navigate("/loginForm");
       }, 1000);
+    } else {
+      setPasswordCheck(true);
     }
   };
 
@@ -120,15 +122,16 @@ const SignupForm = () => {
               id="outlined-required"
               type="password"
               label="Password"
-              onChange={HandleValues}
-              value={values.password}
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
               required
             />
+            <PasswordStrengthBar password={password}/>
           </Box>
 
-          {error.password && (
+          {passwordCheck && (
             <Box sx={{ color: "red", textAlign: "left", marginLeft: "10px" }}>
-              {error.password}
+              Password didn't match our policy
             </Box>
           )}
 
